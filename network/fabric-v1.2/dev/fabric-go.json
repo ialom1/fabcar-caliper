@@ -1,0 +1,84 @@
+{
+  "caliper": {
+    "blockchain": "fabric",
+    "command" : {
+      "start": "docker-compose -f network/fabric-v1.2/dev/docker-compose.yaml up -d ca.example.com orderer.example.com peer0.org1.example.com couchdb;sleep 10s",
+      "end" : "docker-compose -f network/fabric-v1.2/dev/docker-compose.yaml down;docker rm $(docker ps -aq);docker rmi $(docker images dev* -q)"
+    }
+  },
+  "fabric": {
+    "cryptodir": "network/fabric-v1.2/config/crypto-config",
+    "network": {
+      "orderer": {
+        "url": "grpc://localhost:7050",
+        "mspid": "OrdererMSP",
+        "msp": "network/fabric-v1.2/config/crypto-config/ordererOrganizations/example.com/msp/",
+        "server-hostname": "orderer.example.com",
+        "tls_cacerts": "network/fabric-v1.2/config/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt"
+      },
+      "org1": {
+        "name": "peerOrg1",
+        "mspid": "Org1MSP",
+        "msp": "network/fabric-v1.2/config/crypto-config/peerOrganizations/org1.example.com/msp/",
+        "ca": {
+          "url": "http://localhost:7054",
+          "name": "ca.example.com"
+        },
+        "peer1": {
+          "requests": "grpc://localhost:7051",
+          "events": "grpc://localhost:7053",
+          "server-hostname": "peer0.org1.example.com",
+          "tls_cacerts": "network/fabric-v1.2/config/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+        }
+      }
+    },
+    "channel": [
+      {
+        "name": "mychannel",
+        "deployed": false,
+        "config": "network/fabric-v1.2/config/channel.tx",
+        "organizations": ["org1"]
+      }
+    ],
+    "chaincodes": [
+      {
+        "id": "fabcar", 
+        "path": "contract/fabric/fabcar/go", 
+        "language":"golang", 
+        "version": "v1",
+        "init": [""],
+        "channel": "mychannel"
+      }
+    ],
+    "endorsement-policy": {
+      "identities": [
+        {
+          "role": {
+            "name": "member",
+            "mspId": "Org1MSP"
+          }
+        },
+        {
+          "role": {
+            "name": "member",
+            "mspId": "Org2MSP"
+          }
+        }
+      ],
+      "policy": { "1-of": [
+          {"signed-by": 0},
+          {"signed-by": 1}
+          ]}
+    },
+    "context": {
+      "open": "mychannel",
+      "query": "mychannel"
+    }
+  },
+  "info" : {
+    "Version": "1.2.1",
+    "Size": "1 Org with 1 Peer",
+    "Orderer": "Solo",
+    "Distribution": "Single Host"
+  }
+}
