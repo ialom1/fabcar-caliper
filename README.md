@@ -10,7 +10,7 @@ absConfigFile  = Util.resolvePath(configFile);
 absNetworkFile = Util.resolvePath(networkFile);
 ```
 
-Next we create three objects
+#### Next we create three objects
 ```
 blockchain = new Blockchain(absNetworkFile);
 monitor = new Monitor(absConfigFile);
@@ -21,11 +21,10 @@ client  = new Client(absConfigFile);
 constructor(config_path) {
     super(config_path);
 }
-// The super class if blockchain-interface{
+// The super class is blockchain-interface
   constructor(configPath) {
       this.configPath = configPath;
   }
-}
 ```
 
 
