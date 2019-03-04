@@ -25,6 +25,20 @@ constructor(config_path) {
   constructor(configPath) {
       this.configPath = configPath;
   }
+  async init()
+  async installSmartContract()
+  async prepareClients (number) {
+    let result = [];        
+    for(let i = 0 ; i< number ; i++) {            
+      result[i] = {};        
+    }        
+    return result;    
+  }  
+  async getContext(name, args, clientIdx)    
+  async releaseContext(context)   
+  async invokeSmartContract(context, contractID, contractVer, args, timeout)    
+  async queryState(context, contractID, contractVer, key, fcn)    
+  getDefaultTxStats(stats, results)
 ```
 
 
