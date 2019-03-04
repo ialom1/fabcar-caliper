@@ -1,10 +1,8 @@
-### Caliper Work flow
-
-#### The process begin at the main.js file
+#### The process begins at the main.js file
 It passes the blockchain-config file and the benchmark-config file to the run method of benchflow.js that maintains all the activities that caliper performs.
 
 #### In the benchflow.js File the run method is invoked
-We begin by resolving the file paths i,e get their absolute paths if relative path were given earlier
+We begin by resolving the file paths i,e get their absolute paths if relative paths were given earlier
 ```
 absConfigFile  = Util.resolvePath(configFile);
 absNetworkFile = Util.resolvePath(networkFile);
