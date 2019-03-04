@@ -62,3 +62,16 @@ constructor(config) {
     this.updates = {id:0, data:[]};           // contains txUpdated messages
 }
 ```
+
+#### The report template and JSON data record are created.
+```
+createReport();
+demo.init(); // creates a JSON file in the output folder
+```
+
+#### Back to benchflow.js
+We parse the configuration files from their paths
+```
+let configObject = Util.parseYaml(absConfigFile);
+let networkObject = require(absNetworkFile);
+```
